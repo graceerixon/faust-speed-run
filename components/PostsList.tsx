@@ -1,7 +1,6 @@
 import PostCard from "../components/PostCard";
 
 export default function PostsList({ posts }) {
-    console.log(posts);
 
   return (
     <ul className="posts-list">
