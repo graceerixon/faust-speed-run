@@ -6,9 +6,10 @@ import { getNextStaticProps } from '@faustjs/next';
 
 const formatDate = (date) => new Date(date).toLocaleDateString();
 
-export default function SinglePost({ post }) {
-    console.log('console log', post);
-  const haveCategories = Boolean(post.categories?.nodes?.length);
+export default function SinglePost() {
+  const { usePost } = client;
+  const post = usePost();
+  const haveCategories = Boolean(post.categories().nodes?.length);
 
   return (
     <Layout>
@@ -22,7 +23,7 @@ export default function SinglePost({ post }) {
           <div className="category-list">
             <h4>Categorized As</h4>
             <ul>
-              {post.categories.nodes.map((category) => {
+              {post.categories().nodes.map((category) => {
                 const { slug, name } = category;
                 return (
                   <li key={slug}>
@@ -43,11 +44,16 @@ export default function SinglePost({ post }) {
 }
 
 export function getStaticPaths() {
-    return {
-      paths: [],
-      fallback: "blocking",
-    };
+  return {
+    paths: [],
+    fallback: "blocking",
+  };
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps(context: GetStaticPropsContext) {
+  return getNextStaticProps(context, {
+      Page: SinglePost,
+      client,
+      revalidate: 60
+  });
 }
