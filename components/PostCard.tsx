@@ -13,7 +13,7 @@ export default function PostCard({ post }: { post: Post }) {
       {srcUrl ? (
         <Link href={post.uri ?? ""}>
           <a>
-            {<Image src={srcUrl} alt={altText} width={width} height={height} />}
+            <Image src={srcUrl} alt={altText} width={width} height={height} />
           </a>
         </Link>
       ) : null}
