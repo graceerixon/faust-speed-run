@@ -1,6 +1,6 @@
 module.exports = {
   reactStrictMode: true,
-}
+};
 
 const { withFaust } = require("@faustjs/next");
 
@@ -10,6 +10,6 @@ const { withFaust } = require("@faustjs/next");
 module.exports = withFaust({
   reactStrictMode: true,
   images: {
-    domains: ["headless.local"],
+    domains: ["headless.local", "faustspeedrun.local"],
   },
 });

@@ -1,5 +1,6 @@
 import Link from "next/link";
 import Layout from "../components/Layout";
+import Image from "next/image";
 import { client } from '../client';
 import { GetStaticPropsContext } from 'next';
 import { getNextStaticProps } from '@faustjs/next';
@@ -10,10 +11,15 @@ export default function SinglePost() {
   const { usePost } = client;
   const post = usePost();
   const haveCategories = Boolean(post.categories().nodes?.length);
+  const srcUrl = post?.featuredImage?.node?.sourceUrl();
+  const altText = post?.featuredImage?.node?.altText;
+  const width = post?.featuredImage?.node?.mediaDetails?.width;
+  const height = post?.featuredImage?.node?.mediaDetails?.height;
 
   return (
     <Layout>
       <article className="blog-post">
+        <Image src={srcUrl} alt={altText} width={width} height={height} />
         <h1>{post.title()}</h1>
         <p className="post-meta">
           ✍️ {post.author.node.name} on {formatDate(post.date)}
@@ -52,8 +58,8 @@ export function getStaticPaths() {
 
 export async function getStaticProps(context: GetStaticPropsContext) {
   return getNextStaticProps(context, {
-      Page: SinglePost,
-      client,
-      revalidate: 60
+    Page: SinglePost,
+    client,
+    revalidate: 60
   });
 }
